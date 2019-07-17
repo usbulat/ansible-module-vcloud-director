@@ -1165,18 +1165,19 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 </ul>
 </li>
 <li>
-<h3>Vapp VM Disk Operations</h3>
+<h3>Vapp VM Independent Disk States</h3>
 <ul>
 <li>
-<h5>Read vapp vm disk</h5>
+<h5>Attach independent disk to vapp vm</h5>
 <pre>
 <code>
- - name: read disks
+ - name: attach independent disk
    vcd_vapp_vm_disk:
-      vm_name: "test_vm"
-      vapp: "test_vapp"
-      vdc: "test_vdc"
-      operation: "read"
+        vm_name: "test_vm"
+        vapp: "test_vapp"
+        vdc: "test_vdc"
+        disk_name: "test_disk"
+        state: "attached"
 
 </code>
 </pre>
@@ -1190,9 +1191,40 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 <li>vm_name - (Required) name of the VM</li>
 <li>vapp - (Required) name of the vApp</li>
 <li>vdc - (Required) name of the vdc</li>
-<li>operation == "read" (Required) to read disks</li>
+<li>disk_name - (Required) name of the attaching disk</li>
+<li>operation == "attached" (Required) to attach disk</li>
 </ul>
 </li>
+
+<li>
+<h5>Detach independent disk from vapp vm</h5>
+<pre>
+<code>
+ - name: detach independent disk
+   vcd_vapp_vm_disk:
+        vm_name: "test_vm"
+        vapp: "test_vapp"
+        vdc: "test_vdc"
+        disk_name: "test_disk"
+        state: "detached"
+
+</code>
+</pre>
+<ul>
+<li>user - (Optional) - vCloud Director user name</li>
+<li>password - (Optional) - vCloud Director password</li>
+<li>org - (Optional) - vCloud Director org name to log into</li>
+<li>host - (Optional) - vCloud Director host name</li>
+<li>api_version - (Optional) - Pyvcloud API version</li>
+<li>verify_ssl_certs - (Optional) - true to enforce to verify ssl certificate for each requests else false</li>
+<li>vm_name - (Required) name of the VM</li>
+<li>vapp - (Required) name of the vApp</li>
+<li>vdc - (Required) name of the vdc</li>
+<li>disk_name - (Required) name of the detaching disk</li>
+<li>operation == "detached" (Required) to deatch disk</li>
+</ul>
+</li>
+
 </ul>
 </li>
 </ol>
@@ -1409,7 +1441,7 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 <!--				  -->
 <!-- Independent Disk Use Case -->
 <div class="disk-usage col-12" id="disk-usage">
-<h2>Disk Example Usage</h2>
+<h2>Independent Disk Example Usage</h2>
 <hr />
 <ol>
 <li>
