@@ -1173,11 +1173,11 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 <code>
  - name: attach independent disk
    vcd_vapp_vm_disk:
-        vm_name: "test_vm"
-        vapp: "test_vapp"
-        vdc: "test_vdc"
-        disk_name: "test_disk"
-        state: "attached"
+      vm_name: "test_vm"
+      vapp: "test_vapp"
+      vdc: "test_vdc"
+      disk_name: "test_disk"
+      state: "attached"
 
 </code>
 </pre>
@@ -1195,18 +1195,17 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 <li>operation == "attached" (Required) to attach disk</li>
 </ul>
 </li>
-
 <li>
 <h5>Detach independent disk from vapp vm</h5>
 <pre>
 <code>
  - name: detach independent disk
    vcd_vapp_vm_disk:
-        vm_name: "test_vm"
-        vapp: "test_vapp"
-        vdc: "test_vdc"
-        disk_name: "test_disk"
-        state: "detached"
+      vm_name: "test_vm"
+      vapp: "test_vapp"
+      vdc: "test_vdc"
+      disk_name: "test_disk"
+      state: "detached"
 
 </code>
 </pre>
@@ -1224,7 +1223,6 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 <li>operation == "detached" (Required) to deatch disk</li>
 </ul>
 </li>
-
 </ul>
 </li>
 </ol>
