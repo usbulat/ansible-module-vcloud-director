@@ -1164,6 +1164,37 @@ By default, the priority will be given to <b>Local Variables</b> than <b>Environ
 </li>
 </ul>
 </li>
+<li>
+<h3>Vapp VM Disk Operations</h3>
+<ul>
+<li>
+<h5>Read vapp vm disk</h5>
+<pre>
+<code>
+ - name: read disks
+   vcd_vapp_vm_disk:
+      vm_name: "test_vm"
+      vapp: "test_vapp"
+      vdc: "test_vdc"
+      operation: "read"
+
+</code>
+</pre>
+<ul>
+<li>user - (Optional) - vCloud Director user name</li>
+<li>password - (Optional) - vCloud Director password</li>
+<li>org - (Optional) - vCloud Director org name to log into</li>
+<li>host - (Optional) - vCloud Director host name</li>
+<li>api_version - (Optional) - Pyvcloud API version</li>
+<li>verify_ssl_certs - (Optional) - true to enforce to verify ssl certificate for each requests else false</li>
+<li>vm_name - (Required) name of the VM</li>
+<li>vapp - (Required) name of the vApp</li>
+<li>vdc - (Required) name of the vdc</li>
+<li>operation == "read" (Required) to read disks</li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
 </div>
 <!--                  -->
