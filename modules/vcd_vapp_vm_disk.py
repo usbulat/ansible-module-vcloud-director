@@ -1,5 +1,5 @@
 # Copyright © 2018 VMware, Inc. All Rights Reserved.
-# SPDX-License-Identifier: BSD-2-Clause OR GPL-3.0-only
+# SPDX-License-Identifier: BSD-2-Clause
 
 # !/usr/bin/python
 
@@ -113,7 +113,7 @@ from ansible.module_utils.vcd import VcdAnsibleModule
 from pyvcloud.vcd.exceptions import EntityNotFoundException
 
 
-VAPP_VM_DISK_STATES = ['present', 'absent', 'update']
+VAPP_VM_DISK_STATES = ['present', 'absent', 'update', 'attached', 'detached']
 VAPP_VM_DISK_OPERATIONS = ['read']
 
 
@@ -146,6 +146,12 @@ class VappVMDisk(VcdAnsibleModule):
 
         if state == "absent":
             return self.delete_disk()
+
+        if state == "attached":
+            return self.attach_disk()
+
+        if state == "detached":
+            return self.detach_disk()
 
     def manage_operations(self):
         operation = self.params.get('operation')
@@ -189,6 +195,50 @@ class VappVMDisk(VcdAnsibleModule):
             'new_disk_size': size,
             'new_disk_instance_id': new_disk_instance_id
         }
+        response['changed'] = True
+
+        return response
+
+    def attach_disk(self):
+        vm = self.get_vm()
+        vm_name = vm.resource.get('name')
+        disk_name = self.params.get('disk_name')
+        response = dict()
+        response['changed'] = False
+
+        vdc = self.params.get('vdc')
+        org_resource = Org(self.client, resource=self.client.get_org())
+        vdc_resource = VDC(self.client, resource=org_resource.get_vdc(vdc))
+        disk = vdc_resource.get_disk(name=disk_name)
+
+        attach_disk_task = self.vapp.attach_disk_to_vm(disk_href=disk.get('href'), vm_name=vm_name)
+        self.execute_task(attach_disk_task)
+
+        msg = 'Independent disk {0} has been attached.'
+        response['msg'] = msg.format(disk_name)
+
+        response['changed'] = True
+
+        return response
+
+    def detach_disk(self):
+        vm = self.get_vm()
+        vm_name = vm.resource.get('name')
+        disk_name = self.params.get('disk_name')
+        response = dict()
+        response['changed'] = False
+
+        vdc = self.params.get('vdc')
+        org_resource = Org(self.client, resource=self.client.get_org())
+        vdc_resource = VDC(self.client, resource=org_resource.get_vdc(vdc))
+        disk = vdc_resource.get_disk(name=disk_name)
+
+        detach_disk_task = self.vapp.detach_disk_from_vm(disk_href=disk.get('href'), vm_name=vm_name)
+        self.execute_task(detach_disk_task)
+
+        msg = 'Independent disk {0} has been detached.'
+        response['msg'] = msg.format(disk_name)
+
         response['changed'] = True
 
         return response
